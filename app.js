@@ -5,8 +5,20 @@ let url = `https://api.github.com/users/AprilS21`;
 var info = await getRequest(url, "AprilS21");
 console.log(info);
 let name = document.getElementById('test');
-    name.innerHTML = `<b>Name2: </b>${info.login}`;
+name.innerHTML = `<b>Name7: </b>${info.login}`;
+
+url = `https://api.github.com/users/AprilS21/repos`
+var repo = await getRequest(url, "AprilS21");
+console.log(repo);
+
+name = document.getElementById('test2');
+ for(i in repo){
+    name.innerHTML='Repo id: ' +repo[i].id; 
+    console.log(repo[i].id);
+} 
 }
+
+
 
 
 async function getRequest(url, token) {
