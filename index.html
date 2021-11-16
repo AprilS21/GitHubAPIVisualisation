@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <body>
 
-<h1>Requesting data</h1>
-<p>returning name</p>
-<button onclick="main()">Click me </button>
-<p id = login></p>
-<p id= test2></p>
-<img id= image src=''>
-<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-<canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
-<script src="app.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <h1>Requesting data</h1>
+    <p>returning name</p>
+    <div>
+        Enter your username: <input id='userName' type='text'>   
+        Enter one of your reposititories: <input id='repoInput' type='text'>
+        <button onclick="main()">Enter</button>
+    </div>
+    
+    <p id=login></p>
+    <p id=test2></p>
+    <img id=image src=''>
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+    <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </body>
+
 </html>

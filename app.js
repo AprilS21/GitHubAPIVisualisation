@@ -1,8 +1,12 @@
 async function main(){
 console.log("testing js1234");
-let url = `https://api.github.com/users/AprilS21`;
 
-var info = await getRequest(url, "AprilS21");
+var username = document.getElementById("userName").value;
+if(username==""){username = "AprilS21";}
+var repoInput = document.getElementById("repoInput").value;
+let url = `https://api.github.com/users/`+ username;
+
+var info = await getRequest(url, username);
 console.log(info);
 let name = document.getElementById('login');
 name.innerHTML = `<b>Name: </b>${info.login}`;
@@ -10,8 +14,8 @@ name.innerHTML = `<b>Name: </b>${info.login}`;
 let image = document.getElementById('image');
 image.src=info.avatar_url;
 
-url = `https://api.github.com/users/AprilS21/repos`
-var repo = await getRequest(url, "AprilS21");
+url = 'https://api.github.com/users/' + username + '/repos';
+var repo = await getRequest(url, username);
 //console.log(repo);
 
 /* name = document.getElementById('test2');
@@ -23,8 +27,8 @@ var repo = await getRequest(url, "AprilS21");
 var commits = await getRequest(url, "AprilS21");
 console.log(commits); */
 
-await drawBarChart(repo, "AprilS21");
-await drawLineChart(repo,"AprilS21","lowestCommonAncestor");
+await drawBarChart(repo, username);
+await drawLineChart(repo,username, repoInput);
 }
 
 
