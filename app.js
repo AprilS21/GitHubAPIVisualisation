@@ -4,9 +4,11 @@ console.log("testing js1234");
 var username = document.getElementById("userName").value;
 if(username==""){username = "AprilS21";}
 var repoInput = document.getElementById("repoInput").value;
+var tokenInput = document.getElementById("authInput").value;
+if(tokenInput==""){tokenInput = username;}
 let url = `https://api.github.com/users/`+ username;
 
-var info = await getRequest(url, username);
+var info = await getRequest(url, tokenInput).catch(error => console.error(error));
 console.log(info);
 let name = document.getElementById('login');
 name.innerHTML = `<b>Name: </b>${info.login}`;
@@ -15,7 +17,7 @@ let image = document.getElementById('image');
 image.src=info.avatar_url;
 
 url = 'https://api.github.com/users/' + username + '/repos';
-var repo = await getRequest(url, username);
+var repo = await getRequest(url, tokenInput).catch(error => console.error(error));
 //console.log(repo);
 
 /* name = document.getElementById('test2');
@@ -28,7 +30,7 @@ var commits = await getRequest(url, "AprilS21");
 console.log(commits); */
 
 await drawBarChart(repo, username);
-await drawLineChart(repo,username, repoInput);
+await drawLineChart(repo,username, repoInput,auth);
 }
 
 
@@ -47,7 +49,7 @@ data = response
 return data
 }
 
-async function drawBarChart(repo, token){
+async function drawBarChart(repo, token,auth){
 /* var xValues = [50,60,70,80,90,100,110,120,130,140,150];
 var yValues = [7,8,8,9,9,9,10,11,14,14,15]; */
 
@@ -57,7 +59,7 @@ var commit;
 var url = "https://api.github.com/repos/"+token;
 
 for(i in repo){
-    commit = await getRequest(url + "/"+repo[i].name+"/commits");
+    commit = await getRequest(url + "/"+repo[i].name+"/commits", auth).catch(error => console.error(error));
     xValues.push(repo[i].name);
     yValues.push(commit.length);
 }
@@ -67,7 +69,7 @@ new Chart("myChart", {
     data: {
       labels: xValues,
       datasets: [{
-        backgroundColor: "red",
+        backgroundColor: "blue",
         data: yValues
       }]
     },
@@ -81,12 +83,12 @@ new Chart("myChart", {
   });
 }
 
-async function drawLineChart(repo, token, request){
+async function drawLineChart(repo, token, request,auth){
     var url ="https://api.github.com/repos/"+token;
     var xValues = [];
     var yValues = [];
 
-    commit = await getRequest(url + "/"+request+"/stats/participation");
+    commit = await getRequest(url + "/"+request+"/stats/participation",auth).catch(error => console.error(error));
         for(j in commit.all){
             yValues.push(commit.all[j]);
             xValues.push(j);
@@ -101,7 +103,7 @@ async function drawLineChart(repo, token, request){
         datasets: [{
           fill: false,
           lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
+          backgroundColor: "rgb(51, 204, 51)",
           borderColor: "rgba(0,0,255,0.1)",
           data: yValues
         }]
