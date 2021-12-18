@@ -1,5 +1,4 @@
 async function main(){
-console.log("testing js1234");
 
 var username = document.getElementById("userName").value;
 if(username==""){username = "AprilS21";}
@@ -30,9 +29,13 @@ await drawLineChart(repo,username, repoInput,tokenInput);
 async function getRequest(url, token) {
 
 var data;
+
+const headers = {
+  'Authorization': `Token ${token}`
+}
 let response  = await fetch(url,{
     "method": "GET",
-    "Authorization": "Token " + token
+    "your_username": token
 })
 .then(response=> response.json());
 console.log(response);
@@ -41,11 +44,10 @@ return data
 }
 
 async function drawBarChart(repo, token,auth){
-/* var xValues = [50,60,70,80,90,100,110,120,130,140,150];
-var yValues = [7,8,8,9,9,9,10,11,14,14,15]; */
 
 var xValues =[];
 var yValues =[];
+var data = [];
 var commit;
 var url = "https://api.github.com/repos/"+token;
 
@@ -53,6 +55,7 @@ for(i in repo){
     commit = await getRequest(url + "/"+repo[i].name+"/commits", auth).catch(error => console.error(error));
     xValues.push(repo[i].name);
     yValues.push(commit.length);
+    data.push(repo[i]);
 }
 
 new Chart("myChart", {
@@ -72,6 +75,7 @@ new Chart("myChart", {
       }
     }
   });
+  drawPieCharts(data);
 }
 
 async function drawLineChart(repo, token, request,auth){
@@ -113,5 +117,48 @@ async function drawLineChart(repo, token, request,auth){
 
 }
 
+async function drawPieCharts (repo){
+  var xValues = [];
+  var yValues = [];
+  var name;
+  for(i in repo){
+    for(j in repo[i]){
+      //var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+      //var yValues = [55, 49, 44, 24, 15];
+      if(repo[i][j].login==null){
+        name = "unknown"
+      }else{
+        name = repo[i][j].login
+      }
+    xValues.push(name);
+    yValues.push(j);
+    }
+      var barColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+      ];
+      
+      new Chart("myChart3", {
+        type: "pie",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: "World Wide Wine Production 2018"
+          }
+        }
+      });
+    
+  }
+}
 
 
