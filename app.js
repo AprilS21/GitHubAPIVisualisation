@@ -18,19 +18,10 @@ image.src=info.avatar_url;
 
 url = 'https://api.github.com/users/' + username + '/repos';
 var repo = await getRequest(url, tokenInput).catch(error => console.error(error));
-//console.log(repo);
 
-/* name = document.getElementById('test2');
- for(i in repo){
-    name.innerHTML='Repo id111: ' +repo[i].id; 
-    console.log(repo[i].id);
-}  */
-/* url = `https://api.github.com/repos/AprilS21/lowestCommonAncestor/commits`
-var commits = await getRequest(url, "AprilS21");
-console.log(commits); */
 
 await drawBarChart(repo, username);
-await drawLineChart(repo,username, repoInput,auth);
+await drawLineChart(repo,username, repoInput,tokenInput);
 }
 
 
@@ -41,7 +32,7 @@ async function getRequest(url, token) {
 var data;
 let response  = await fetch(url,{
     "method": "GET",
-    "user-agent": token
+    "Authorization": "Token " + token
 })
 .then(response=> response.json());
 console.log(response);
