@@ -1,3 +1,4 @@
+//takes user input, does a get request and calls chart drawing functions
 async function main(){
 
 var username = document.getElementById("userName").value;
@@ -28,7 +29,7 @@ await drawLineChart(username, repoInput,tokenInput);
 
 
 
-
+//function for requests to github API
 async function getRequest(url, token) {
 
 var data;
@@ -45,6 +46,7 @@ data = response;
 return data
 }
 
+//draws barchart of commits per repo
 async function drawBarChart(repo, name,token){
 
 var xValues =[];
@@ -57,7 +59,7 @@ for(i in repo){
     commit = await getRequest(url + "/"+repo[i].name+"/commits", token).catch(error => console.error(error));
     xValues.push(repo[i].name);
     yValues.push(commit.length);
-    data.push(commit);
+    data.push(commit); // storing the data for piechart function
 }
 
 new Chart("myChart", {
@@ -77,9 +79,10 @@ new Chart("myChart", {
       }
     }
   });
-  drawPieCharts(data);
+  drawPieCharts(data); //calls function to draw piechart
 }
 
+//draws line chart of the number of commits to a given repo in the last year
 async function drawLineChart(name, request,token){
     var url ="https://api.github.com/repos/"+name;
     var xValues = [];
@@ -119,6 +122,7 @@ async function drawLineChart(name, request,token){
 
 }
 
+//draws piechart of the different users that have committed to the repos
 async function drawPieCharts (repo){
   var xValues = [];
   var yValues = [];
@@ -167,6 +171,7 @@ async function drawPieCharts (repo){
   
 }
 
+//draws donut chart of the number of repos in each language
 async function drawDonutChart(repo, name,token){
   var xValues=[];
   var yValues=[];
