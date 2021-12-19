@@ -121,6 +121,7 @@ async function drawLineChart(name, request,token){
 async function drawPieCharts (repo){
   var xValues = [];
   var yValues = [];
+  var barColors=[];
   var name;
   console.log(repo);
   if(repo.length > 0){console.log("has elements");}
@@ -133,20 +134,17 @@ async function drawPieCharts (repo){
         name =repo[i][j].author['login'];;
       
     }catch{name = "unknown";}
-    if(!xValues.includes(name)){xValues.push(name);yValues.push(0);}
+    if(!xValues.includes(name)){
+      xValues.push(name);
+      yValues.push(0);
+      barColors.push(getRandomColor());
+    }
     var index = xValues.indexOf(name);
     var x = yValues[index];
     x = x+1;
     yValues[index]=x;
   }
     }
-      var barColors = [
-        "#b91d47",
-        "#00aba9",
-        "#2b5797",
-        "#e8c3b9",
-        "#1e7145"
-      ];
       
       new Chart("myChart3", {
         type: "pie",
@@ -166,6 +164,15 @@ async function drawPieCharts (repo){
       });
     
   
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
 
 
