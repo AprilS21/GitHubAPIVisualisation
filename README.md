@@ -1,11 +1,17 @@
-install node.js
+Install Docker
 
-install http-server :
+clone this repository
 
-npm install http-server -g
+Run command: 
 
-go to folder with the files in it
+cd GitHubAPI
 
-in cmd line : http-server .
+Build docker image command: 
 
-can then open on localhost:8080
+docker build -t githubapi .
+
+Run container command:
+
+docker run -d --name githubapi -p 80:80 githubapi
+
+Go to localhost:80 to visit site.
