@@ -22,6 +22,7 @@ var repo = await getRequest(url, tokenInput).catch(error => console.error(error)
 
 
 await drawBarChart(repo, username,tokenInput);
+await drawDonutChart(repo, username,tokenInput);
 await drawLineChart(username, repoInput,tokenInput);
 }
 
@@ -164,6 +165,42 @@ async function drawPieCharts (repo){
       });
     
   
+}
+
+async function drawDonutChart(repo, name,token){
+  var xValues=[];
+  var yValues=[];
+  var barColors=[];
+
+  for(i in repo){
+    if(!xValues.includes(repo[i].language)){
+      xValues.push(repo[i].language);
+      yValues.push(0);
+      barColors.push(getRandomColor());
+    }
+    var index = xValues.indexOf(repo[i].language);
+    var x = yValues[index];
+    x = x+1;
+    yValues[index]=x;
+  }
+  
+  new Chart("myChart4", {
+    type: "doughnut",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Languages"
+      }
+    }
+  });
+
 }
 
 function getRandomColor() {
