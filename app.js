@@ -1,6 +1,20 @@
 //takes user input, does a get request and calls chart drawing functions
 async function main(){
 
+var canvas = document.getElementById('myChart');
+var context = canvas.getContext('2d');
+context.clearRect(0, 0, canvas.width, canvas.height);
+canvas = document.getElementById('myChart2');
+context = canvas.getContext('2d');
+context.clearRect(0, 0, canvas.width, canvas.height);
+canvas = document.getElementById('myChart3');
+context = canvas.getContext('2d');
+context.clearRect(0, 0, canvas.width, canvas.height);
+canvas = document.getElementById('myChart4');
+context = canvas.getContext('2d');
+context.clearRect(0, 0, canvas.width, canvas.height);
+
+
 var username = document.getElementById("userName").value;
 if(username==""){username = "AprilS21";}
 var repoInput = document.getElementById("repoInput").value;
@@ -8,15 +22,24 @@ var tokenInput = document.getElementById("authInput").value;
 if(tokenInput==""){tokenInput = username;}
 let url = `https://api.github.com/users/`+ username;
 
+
 var info = await getRequest(url, tokenInput).catch(error => console.error(error));
 console.log(info);
-let nameLogin = document.getElementById('login');
-nameLogin.innerHTML = `<b>Login: </b>${info.login}`;
-let name = document.getElementById('name');
-name.innerHTML = `<b>Name: </b>${info.name}`;
 
 let image = document.getElementById('image');
 image.src=info.avatar_url;
+let nameLogin = document.getElementById('login');
+nameLogin.innerHTML = `<b>Login: </b>${info.login}`;
+let name = document.getElementById('name');
+name.innerHTML = `<b>Name: </b>${info.name == null ? 'Not Found' : info.name}`;
+let urlUser = document.getElementById('url');
+urlUser.innerHTML = `<b>URL: </b>${info.html_url == null ? 'Not Found' : info.html_url}`;
+let location = document.getElementById('location');
+location.innerHTML = `<b>Location: </b>${info.location == null ? 'Not Found' : info.location}`;
+let blog = document.getElementById('blog');
+blog.innerHTML = `<b>Blog: </b>${info.blog == "" ? 'Not Found' : info.blog}`;
+
+
 
 url = 'https://api.github.com/users/' + username + '/repos';
 var repo = await getRequest(url, tokenInput).catch(error => console.error(error));
@@ -76,6 +99,11 @@ new Chart("myChart", {
       title: {
         display: true,
         text: "Commits per Repo"
+      },
+      layout: {
+        padding: {
+          left: 50
+        }
       }
     }
   });
@@ -115,9 +143,17 @@ async function drawLineChart(name, request,token){
           text: "Commits per week in " + request
         },
         scales: {
-          yAxes: [{ticks: {min: 0, max: Math.max(...yValues)}}],
+          yAxes: [{ticks: {min: 0, max: Math.max(...yValues)==0? 5 : Math.max(...yValues)}}],
+          y: {
+            ticks: {
+                // Include a dollar sign in the ticks
+                callback: function(value, index, values) {
+                    return 'Week' + value;
+                }
+            }
         }
       }
+    }
     });
 
 }

@@ -5,8 +5,8 @@
 </head>
 <body>
 
-    <h1>Stats on your Github Account</h1>
-    <p>Currently returns name, picture, commits per your repos and the number of commits per week of a given repo, all fields are required</p>
+    <h1>GitHub Metric Visualisation</h1>
+    <p>All fields are required</p>
     <div id = div1>
         Enter your username: <input id='userName' type='text'>   
         Enter one of your reposititories: <input id='repoInput' type='text'>
@@ -14,9 +14,12 @@
         <button onclick="main()">Enter</button>
     </div>
     
+    <img id=image src=''>
     <p id=login></p>
     <p id=name></p>
-    <img id=image src=''>
+    <p id =url></p>
+    <p id=location></p>
+    <p id=blog></p>
     <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
     <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
     <canvas id="myChart3" style="width:100%;max-width:900px;height: 500px;"></canvas>

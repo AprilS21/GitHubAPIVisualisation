@@ -1,8 +1,12 @@
 body{
-    background-color: #84ceff;
+    background-color: rgb(150, 235, 207);
 }
 
 h1{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+p{
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,5 +16,38 @@ h1{
     font-family: Arial, Helvetica, sans-serif;
 }
 img{
-    width: 250px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  padding-top: 25px;
+}
+
+#myChart{
+    text-align: center;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 25px;
+}
+#myChart2{
+    text-align: center;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 25px;
+}
+#myChart3{
+    text-align: center;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 25px;
+}
+#myChart4{
+    text-align: center;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2px;
 }
