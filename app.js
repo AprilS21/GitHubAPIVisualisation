@@ -55,7 +55,7 @@ for(i in repo){
     commit = await getRequest(url + "/"+repo[i].name+"/commits", auth).catch(error => console.error(error));
     xValues.push(repo[i].name);
     yValues.push(commit.length);
-    data.push(repo[i]);
+    data.push(commit);
 }
 
 new Chart("myChart", {
@@ -118,20 +118,26 @@ async function drawLineChart(repo, token, request,auth){
 }
 
 async function drawPieCharts (repo){
-  var xValues = [];
-  var yValues = [];
+ // var xValues = [];
+  //var yValues = [];
+  var dataArray = [];
   var name;
+  console.log(repo);
+  if(repo.length > 0){console.log("has elements");}
   for(i in repo){
     for(j in repo[i]){
       //var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
       //var yValues = [55, 49, 44, 24, 15];
-      if(repo[i][j].login==null){
-        name = "unknown"
-      }else{
-        name = repo[i][j].login
-      }
-    xValues.push(name);
-    yValues.push(j);
+     try{
+      
+        name =repo[i][j].author['login'];;
+      
+    }catch{name = "unknown";}
+    if(!xValues.includes(name)){xValues.push(name);}
+    var index = xValues.findIndex(name);
+    var x = yValues[index];
+    x = x+1;
+    yValues[index]=x;
     }
       var barColors = [
         "#b91d47",
@@ -153,12 +159,13 @@ async function drawPieCharts (repo){
         options: {
           title: {
             display: true,
-            text: "World Wide Wine Production 2018"
+            text: "Users committed to your repos"
           }
         }
       });
     
   }
 }
+
 
 

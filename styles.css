@@ -1,7 +1,10 @@
 body{
-    background-color: #fac099;
+    background-color: hsl(103, 44%, 69%);
 }
 
+h1{
+    text-align: center;
+}
 img{
     size: 0ch;
 }
