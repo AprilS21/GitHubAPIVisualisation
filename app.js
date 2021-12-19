@@ -9,8 +9,10 @@ let url = `https://api.github.com/users/`+ username;
 
 var info = await getRequest(url, tokenInput).catch(error => console.error(error));
 console.log(info);
-let name = document.getElementById('login');
-name.innerHTML = `<b>Name: </b>${info.login}`;
+let nameLogin = document.getElementById('login');
+nameLogin.innerHTML = `<b>Login: </b>${info.login}`;
+let name = document.getElementById('name');
+name.innerHTML = `<b>Name: </b>${info.name}`;
 
 let image = document.getElementById('image');
 image.src=info.avatar_url;
@@ -19,8 +21,8 @@ url = 'https://api.github.com/users/' + username + '/repos';
 var repo = await getRequest(url, tokenInput).catch(error => console.error(error));
 
 
-await drawBarChart(repo, username);
-await drawLineChart(repo,username, repoInput,tokenInput);
+await drawBarChart(repo, username,tokenInput);
+await drawLineChart(username, repoInput,tokenInput);
 }
 
 
@@ -30,29 +32,28 @@ async function getRequest(url, token) {
 
 var data;
 
-const headers = {
-  'Authorization': `Token ${token}`
-}
 let response  = await fetch(url,{
     "method": "GET",
-    "your_username": token
+    'headers': {
+      'Authorization': `token ${token}` 
+    }
 })
 .then(response=> response.json());
 console.log(response);
-data = response
+data = response;
 return data
 }
 
-async function drawBarChart(repo, token,auth){
+async function drawBarChart(repo, name,token){
 
 var xValues =[];
 var yValues =[];
 var data = [];
 var commit;
-var url = "https://api.github.com/repos/"+token;
+var url = "https://api.github.com/repos/"+name;
 
 for(i in repo){
-    commit = await getRequest(url + "/"+repo[i].name+"/commits", auth).catch(error => console.error(error));
+    commit = await getRequest(url + "/"+repo[i].name+"/commits", token).catch(error => console.error(error));
     xValues.push(repo[i].name);
     yValues.push(commit.length);
     data.push(commit);
@@ -78,12 +79,12 @@ new Chart("myChart", {
   drawPieCharts(data);
 }
 
-async function drawLineChart(repo, token, request,auth){
-    var url ="https://api.github.com/repos/"+token;
+async function drawLineChart(name, request,token){
+    var url ="https://api.github.com/repos/"+name;
     var xValues = [];
     var yValues = [];
 
-    commit = await getRequest(url + "/"+request+"/stats/participation",auth).catch(error => console.error(error));
+    commit = await getRequest(url + "/"+request+"/stats/participation",token).catch(error => console.error(error));
         for(j in commit.all){
             yValues.push(commit.all[j]);
             xValues.push(j);
@@ -118,9 +119,8 @@ async function drawLineChart(repo, token, request,auth){
 }
 
 async function drawPieCharts (repo){
- // var xValues = [];
-  //var yValues = [];
-  var dataArray = [];
+  var xValues = [];
+  var yValues = [];
   var name;
   console.log(repo);
   if(repo.length > 0){console.log("has elements");}
@@ -133,11 +133,12 @@ async function drawPieCharts (repo){
         name =repo[i][j].author['login'];;
       
     }catch{name = "unknown";}
-    if(!xValues.includes(name)){xValues.push(name);}
-    var index = xValues.findIndex(name);
+    if(!xValues.includes(name)){xValues.push(name);yValues.push(0);}
+    var index = xValues.indexOf(name);
     var x = yValues[index];
     x = x+1;
     yValues[index]=x;
+  }
     }
       var barColors = [
         "#b91d47",
@@ -164,8 +165,7 @@ async function drawPieCharts (repo){
         }
       });
     
-  }
+  
 }
-
 
 
