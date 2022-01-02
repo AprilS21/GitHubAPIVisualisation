@@ -98,7 +98,7 @@ new Chart("myChart", {
       legend: {display: false},
       title: {
         display: true,
-        text: "Commits per Repo"
+        text: "Commits per Repository"
       },
       layout: {
         padding: {
@@ -140,7 +140,7 @@ async function drawLineChart(name, request,token){
         legend: {display: false},
         title:{
           display:true,
-          text: "Commits per week in " + request
+          text: "Commits in " + request + " per week during the last year"
         },
         scales: {
           yAxes: [{ticks: {min: 0, max: Math.max(...yValues)==0? 5 : Math.max(...yValues)}}],
